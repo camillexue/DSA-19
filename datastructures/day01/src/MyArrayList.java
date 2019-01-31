@@ -18,6 +18,9 @@ public class MyArrayList {
         elems[size] = c;
         size++;
 
+        if (size == elems.length)
+            increaseSize();
+
     }
 
     // TODO: Runtime: O(1)
@@ -41,7 +44,7 @@ public class MyArrayList {
             throw new IndexOutOfBoundsException("Index out of bounds.");
 
         Cow removedCow = get(index);
-        while (index < size) {
+        while (index < size - 1) {
             elems[index] = elems[index+1];
             index++;
         }
@@ -52,7 +55,7 @@ public class MyArrayList {
         return removedCow;
     }
 
-    // TODO: Runtime: O(1)*
+    // TODO: Runtime: O(N)
     public void add(int index, Cow c) {
         if(index > size)
             throw new IndexOutOfBoundsException("Index out of bounds.");
@@ -65,6 +68,7 @@ public class MyArrayList {
         }
         elems[index] = c;
         size++;
+
     }
 
     public void decreaseSize() {
@@ -75,7 +79,7 @@ public class MyArrayList {
 
     public void increaseSize() {
         Cow[] newElems = new Cow[elems.length * 2];
-        System.arraycopy(elems, 0, newElems, 0, elems.length);
+        System.arraycopy(elems, 0, newElems, 0, size);
         elems = newElems;
     }
 }
