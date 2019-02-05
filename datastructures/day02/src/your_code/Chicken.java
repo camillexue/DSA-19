@@ -2,7 +2,7 @@ package your_code;
 
 public class Chicken {
 
-    String name;
+    public String name;
     int age;
     String color;
 
