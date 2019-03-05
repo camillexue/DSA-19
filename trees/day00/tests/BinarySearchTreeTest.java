@@ -67,6 +67,7 @@ public class BinarySearchTreeTest {
 
     private void predTest(BinarySearchTree<Integer> bst, Integer[] input) {
         Integer[] sorted = sorted(input);
+
         for (int j = 0; j < sorted.length; j++) {
             Integer predecessor = null;
             if (j > 0)
