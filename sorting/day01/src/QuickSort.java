@@ -56,7 +56,7 @@ public class QuickSort extends SortAlgorithm {
         int index = lo + 1;
 
         for (int x = lo + 1; x <= hi; x++) {
-            if (array[j] < pivot) {
+            if (array[x] < pivot) {
                 swap(array, x, index);
                 index++;
             }
@@ -66,7 +66,7 @@ public class QuickSort extends SortAlgorithm {
         return index-1;
     }
 
-    abstract int[] sort(int[] array);
+//    abstract int[] sort(int[] array);
 
     void swap(int[] a, int i, int j) {
         int temp = a[i];

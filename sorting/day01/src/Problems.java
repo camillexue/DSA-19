@@ -31,6 +31,7 @@ public class Problems {
             seen.add(j, A[i]);
             out[i] = getMedian(seen);
         }
+//        for(double a : out) { System.out.println(a); }
         return out;
     }
 
@@ -41,8 +42,31 @@ public class Problems {
      * @return the median of the stream, after each element has been added
      */
     public static double[] runningMedian(int[] inputStream) {
-        double[] runningMedian = new double[inputStream.length];
-        // TODO
+        int inputLength = inputStream.length;
+        double[] runningMedian = new double[inputLength];
+        PriorityQueue<Integer> before = maxPQ();
+        PriorityQueue<Integer> after = minPQ();
+
+        for (int i = 0; i < inputLength; i++) {
+            int value = inputStream[i];
+            if(after.isEmpty() || value <= after.peek()) {
+                before.offer(value);
+            }
+            else {
+                after.offer(value);
+            }
+            if(before.size() > after.size() + 1) {after.offer(before.poll());}
+            if(before.size() < after.size()) {before.offer(after.poll());}
+
+            if(before.size() > after.size()) {runningMedian[i] = before.peek(); }
+
+            else {
+                runningMedian[i] = (before.peek() + after.peek()) / 2.0;
+            }
+
+        }
+//        for(double a : runningMedian) { System.out.println(a); }
+
         return runningMedian;
     }
 
