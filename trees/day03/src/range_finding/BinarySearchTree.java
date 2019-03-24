@@ -68,6 +68,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
                 n.leftChild = tmp.leftChild;
             }
         }
+//        n.nodeNumber = nodeNumber(n.leftChild)+ nodeNumber(n.rightChild) + 1;
         return n;
     }
 
@@ -85,13 +86,14 @@ public class BinarySearchTree<T extends Comparable<T>> {
     RangeNode<T> deleteMin(RangeNode<T> n) {
         if (n.leftChild == null) return n.rightChild;
         n.leftChild = deleteMin(n.leftChild);
+//        n.nodeNumber = n.leftChild.nodeNumber + n.rightChild.nodeNumber + 1;
         return n;
     }
 
     /**
      * Returns a node with the given key in the BST, or null if it doesn't exist.
      */
-    private RangeNode<T> find(RangeNode<T> currentNode, T key) {
+    public RangeNode<T> find(RangeNode<T> currentNode, T key) {
         if (currentNode == null)
             return null;
         int cmp = key.compareTo(currentNode.key);
@@ -113,6 +115,14 @@ public class BinarySearchTree<T extends Comparable<T>> {
         } else {
             node.rightChild = insert(node.rightChild, key);
         }
+//        node.nodeNumber = nodeNumber(node.leftChild) + nodeNumber(node.rightChild) + 1;
         return node;
+    }
+
+    int nodeNumber(RangeNode <T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return node.nodeNumber;
     }
 }

@@ -1,6 +1,7 @@
 package range_finding;
 
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AVLRangeTree extends BinarySearchTree<Integer> {
@@ -71,27 +72,67 @@ public class AVLRangeTree extends BinarySearchTree<Integer> {
     }
 
     // Return all keys that are between [lo, hi] (inclusive).
-    // TODO: runtime = O(?)
+    // TODO: runtime = O(logN + k)
     public List<Integer> rangeIndex(int lo, int hi) {
         // TODO
-        List<Integer> l = new LinkedList<>();
+        List<Integer> l = new ArrayList<>();
+//        System.out.println(root.key);
+        RangeNode<Integer> lo_node = find(root, lo);
+
+        if (lo == hi) {
+            if(lo_node != null) {
+                l.add(lo);
+                return l;
+            }
+            return l;
+        }
+
+        rangeTraverse(root, lo, hi, l);
+
         return l;
     }
 
-    // return the number of keys between [lo, hi], inclusive
-    // TODO: runtime = O(?)
-    public int rangeCount(int lo, int hi) {
-        // TODO
-        return 0;
+    public void rangeTraverse(RangeNode<Integer> node, int lo, int hi, List<Integer> list) {
+        if (node != null) {
+            if(node.key >= lo) {
+                rangeTraverse(node.leftChild, lo, hi, list);
+            }
+            if (node.key <= hi && node.key >= lo) {
+                list.add(node.key);
+//                System.out.println(node.key);
+            }
+            if(node.key <= hi) {
+                rangeTraverse(node.rightChild, lo, hi, list);
+            }
+        }
     }
 
-    /**
-     * Returns the balance factor of the subtree. The balance factor is defined
-     * as the difference in height of the left subtree and right subtree, in
-     * this order. Therefore, a subtree with a balance factor of -1, 0 or 1 has
-     * the AVL property since the heights of the two child subtrees differ by at
-     * most one.
-     */
+    // return the number of keys between [lo, hi], inclusive
+    // TODO: runtime = O(logN + k)
+    public int rangeCount(int lo, int hi) {
+
+        return count(root, lo, hi);
+    }
+
+    public int count(RangeNode<Integer> n, int lo, int hi) {
+        if (n == null) { return 0; }
+        if (n.key <= hi && n.key >= lo) {
+            return 1 + count(n.leftChild, lo, hi) + count(n.rightChild, lo, hi);
+        }
+        if (n.key < lo) {
+            return count(n.rightChild, lo, hi);
+        } else {
+            return count(n.leftChild, lo, hi);
+        }
+    }
+
+/**
+ * Returns the balance factor of the subtree. The balance factor is defined
+ * as the difference in height of the left subtree and right subtree, in
+ * this order. Therefore, a subtree with a balance factor of -1, 0 or 1 has
+ * the AVL property since the heights of the two child subtrees differ by at
+ * most one.
+ */
     private int balanceFactor(RangeNode x) {
         return height(x.rightChild) - height(x.leftChild);
     }

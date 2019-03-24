@@ -5,6 +5,7 @@ public class RangeNode<T extends Comparable<T>> {
     public RangeNode<T> leftChild;
     public RangeNode<T> rightChild;
     public int height;
+    public int nodeNumber;
 
     public RangeNode(T key) {
         this(key, 0);
